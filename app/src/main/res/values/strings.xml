@@ -6,9 +6,15 @@
 
     <string name="close">Close</string>
     <string name="open">Open</string>
+
     <string name="hello_blank_fragment">Hello from Fragment</string>
+
     <string name="nav_search_fragment_label">Search</string>
     <string name="nav_history_fragment_label">History</string>
-    <string name="search_field_hint">Search...</string>
+    <string name="nav_details_fragment_label">Details</string>
+
+    <string name="search_field_hint">Search…</string>
+
+    <string name="dictionary_base_url">https://api.dictionaryapi.dev/api/v2/</string>
 
 </resources>
