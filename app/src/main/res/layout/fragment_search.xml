@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature_search.ui.SearchFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.dictionary.feature_search.ui.SearchViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:hint="@string/search_field_hint"
+
+            >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_input_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="textAutoComplete"
+            />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </FrameLayout>
+
+</layout>
