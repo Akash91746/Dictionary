@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.example.dictionary.feature_searchDetail.domain.models.WordDataItem" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/medium_padding"
+        android:paddingTop="@dimen/medium_padding"
+        android:paddingRight="@dimen/medium_padding"
+        android:visibility="@{data == null ? View.GONE : View.VISIBLE }">
+
+        <TextView
+            android:id="@+id/word_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{data.word}"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
+
+        <TextView
+            android:id="@+id/phonetic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@{@string/word_phonetic(data.phonetic)}"
+            android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
+
+        <TextView
+            android:id="@+id/origin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@{data.origin ?? @string/word_origin(data.origin)}"
+            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+            android:visibility="@{data.origin == null ? View.GONE : View.VISIBLE}" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/small_margin" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/meaning_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/meaning_list_item"
+            />
+    </LinearLayout>
+</layout>

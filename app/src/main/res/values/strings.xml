@@ -17,4 +17,13 @@
 
     <string name="dictionary_base_url">https://api.dictionaryapi.dev/api/v2/</string>
 
+    <string name="word_phonetic">Phonetic:- %s</string>
+    <string name="word_origin">Origin:- %s</string>
+    <string name="part_of_speech_text">Part of speech:- </string>
+    <string name="word_definition">Definition:- %s</string>
+    <string name="word_example">Example:- %s</string>
+    <string name="word_antonyms">Antonyms:- %s</string>
+    <string name="word_synonyms">Synonyms:- %s</string>
+    <string name="retry">Retry</string>
+
 </resources>

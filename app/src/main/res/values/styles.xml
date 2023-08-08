@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  
+
+    <style name="TextAppearance.Dictionary.Error" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/error</item>
+    </style>
+
 </resources>

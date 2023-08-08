@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="data"
+            type="com.example.dictionary.feature_searchDetail.domain.models.Definition" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/definition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@{@string/word_definition(data.definition)}"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <TextView
+            android:id="@+id/example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@{@string/word_example(data.example)}"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:visibility="@{data.example != null ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/antonyms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@{@string/word_antonyms(data.antonyms)}"
+            android:visibility="@{data.antonyms.size() > 0 ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/synonyms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@{@string/word_synonyms(data.synonyms)}"
+            android:visibility="@{data.synonyms.size() > 0 ? View.VISIBLE : View.GONE}" />
+
+    </LinearLayout>
+
+
+</layout>
