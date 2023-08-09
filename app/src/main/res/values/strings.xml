@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Dictionary</string>
 
+    <string name="app_local_database">com.example.dictionary.LocalDatabase</string>
+
     <string name="nav_search_title">Search</string>
     <string name="nav_recent_search_title">Search History</string>
 
@@ -25,5 +27,6 @@
     <string name="word_antonyms">Antonyms:- %s</string>
     <string name="word_synonyms">Synonyms:- %s</string>
     <string name="retry">Retry</string>
+    <string name="placeholder">Placeholder</string>
 
 </resources>

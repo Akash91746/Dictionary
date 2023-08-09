@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dictionary.feature_searchDetail.domain.repository.DictionaryAPI
 import com.example.dictionary.feature_searchDetail.utils.SearchDetailScreenState
+import com.example.dictionary.feature_searchHistory.domain.models.SearchData
+import com.example.dictionary.feature_searchHistory.domain.repository.SearchDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchDetailViewModel @Inject constructor(
     private val api: DictionaryAPI,
+    private val searchDataRepository: SearchDataRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchDetailScreenState())
@@ -34,14 +37,22 @@ class SearchDetailViewModel @Inject constructor(
 
             if (!response.isSuccessful) {
                 errorMessage = "Error fetching data"
-            } else if (data == null) {
+            } else if (data.isNullOrEmpty()) {
                 errorMessage = "No data found for $word"
             }
 
-            Timber.d("Data is $data")
+            val wordData = if (data != null) data[0] else null
+
+            if (wordData != null) {
+                val title = wordData.word.substring(0,1).uppercase() + wordData.word.substring(1)
+
+                searchDataRepository.insert(
+                    SearchData(search = title)
+                )
+            }
 
             _state.value = _state.value.copy(
-                data = data,
+                data = wordData,
                 error = errorMessage,
                 loading = false
             )

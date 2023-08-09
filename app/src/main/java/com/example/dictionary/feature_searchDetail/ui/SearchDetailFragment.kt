@@ -57,8 +57,8 @@ class SearchDetailFragment : Fragment() {
 
                 binding.progress.visibility = if (state.loading) View.VISIBLE else View.GONE
 
-                if (state.data != null && state.data.size > 0) {
-                    populateDate(state.data[0])
+                if (state.data != null) {
+                    populateDate(state.data)
                 } else if (state.error != null) {
                     showErrorSnackBar(state.error)
                 }
@@ -69,8 +69,6 @@ class SearchDetailFragment : Fragment() {
     }
 
     private fun populateDate(data: WordDataItem){
-        val title = data.word.substring(0,1).uppercase() + data.word.substring(1)
-
         binding.dataLayout.data = data
 
         adapter.submitList(data.meanings)

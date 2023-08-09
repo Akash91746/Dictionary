@@ -2,6 +2,7 @@ package com.example.dictionary.feature_search.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,9 +43,12 @@ class SearchFragment : Fragment(), View.OnClickListener {
                 val text = textView.text.toString()
                 val navigation = Navigation.findNavController(requireView())
 
+
                 val bundle = Bundle().apply {
                     putString(SearchDetailFragment.ARG_WORD,text)
                 }
+
+                binding.searchInputField.text?.clear()
                 navigation.navigate(R.id.action_nav_search_to_searchDetailFragment,bundle)
                 return@setOnEditorActionListener true
             }

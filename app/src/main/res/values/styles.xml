@@ -5,4 +5,7 @@
         <item name="android:textColor">@color/error</item>
     </style>
 
+<!--    <style name="ThemeOverlay.Dictionary.AppBar.PopUpOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+<!--    <style name="ThemeOverlay.Dictionary.AppBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
 </resources>
