@@ -22,4 +22,7 @@ interface SearchDataDao {
 
     @Query("SELECT * FROM searchData ORDER BY createdAt DESC")
     fun getData(): Flow<List<SearchData>>
+
+    @Query("Select * FROM searchData ORDER BY createdAt DESC LIMIT (:limit)")
+    fun getData(limit: Int): Flow<List<SearchData>>
 }

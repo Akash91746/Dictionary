@@ -1,4 +1,4 @@
-package com.example.dictionary.feature_searchDetail.domain.repository
+package com.example.dictionary.feature_searchDetail.data.data_source
 
 import com.example.dictionary.feature_searchDetail.domain.models.WordData
 import retrofit2.Response

@@ -13,6 +13,7 @@ import com.example.dictionary.databinding.FragmentSearchDetailBinding
 import com.example.dictionary.feature_searchDetail.adapters.MeaningListAdapter
 import com.example.dictionary.feature_searchDetail.domain.models.WordData
 import com.example.dictionary.feature_searchDetail.domain.models.WordDataItem
+import com.example.dictionary.feature_searchDetail.utils.SearchDetailScreenEvent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -39,7 +40,7 @@ class SearchDetailFragment : Fragment() {
         }
 
         wordParam?.let {
-            viewModel.init(it)
+            viewModel.onEvent(SearchDetailScreenEvent.InitData(it))
         }
     }
 
@@ -52,6 +53,8 @@ class SearchDetailFragment : Fragment() {
         adapter = MeaningListAdapter()
         binding.dataLayout.meaningRecyclerView.adapter = adapter
 
+        val favoriteButton = binding.dataLayout.favoriteButton
+
         lifecycleScope.launch {
             viewModel.state.collectLatest { state ->
 
@@ -62,13 +65,29 @@ class SearchDetailFragment : Fragment() {
                 } else if (state.error != null) {
                     showErrorSnackBar(state.error)
                 }
+
+                if(state.favorite){
+                    favoriteButton.setBackgroundResource(R.drawable.baseline_star_24)
+                }else {
+                    favoriteButton.setBackgroundResource(R.drawable.baseline_star_outline_24)
+                }
+
+                favoriteButton.isChecked = state.favorite
             }
         }
 
         return binding.root
     }
 
-    private fun populateDate(data: WordDataItem){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.dataLayout.favoriteButton.setOnClickListener {
+            viewModel.onEvent(SearchDetailScreenEvent.OnClickFavorite)
+        }
+    }
+
+    private fun populateDate(data: WordDataItem) {
         binding.dataLayout.data = data
 
         adapter.submitList(data.meanings)
@@ -77,7 +96,8 @@ class SearchDetailFragment : Fragment() {
     private fun showErrorSnackBar(error: String) {
         Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG)
             .setAction(getString(R.string.retry)) {
-                viewModel.init(wordParam!!)
+                if (wordParam != null)
+                    viewModel.onEvent(SearchDetailScreenEvent.InitData(wordParam!!))
             }
             .setActionTextColor(requireContext().getColor(R.color.error))
             .show()

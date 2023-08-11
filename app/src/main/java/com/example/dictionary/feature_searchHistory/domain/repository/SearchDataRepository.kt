@@ -12,4 +12,7 @@ interface SearchDataRepository {
     suspend fun delete(searchData: SearchData)
 
     fun getDataList(): Flow<List<SearchData>>
+
+
+    fun getDataList(limit: Int): Flow<List<SearchData>>
 }

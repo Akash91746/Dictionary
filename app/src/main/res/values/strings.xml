@@ -14,6 +14,7 @@
     <string name="nav_search_fragment_label">Search</string>
     <string name="nav_history_fragment_label">History</string>
     <string name="nav_details_fragment_label">Details</string>
+    <string name="nav_favorites_title">Favorites</string>
 
     <string name="search_field_hint">Search…</string>
 
@@ -28,5 +29,7 @@
     <string name="word_synonyms">Synonyms:- %s</string>
     <string name="retry">Retry</string>
     <string name="placeholder">Placeholder</string>
+    <string name="view_all">View All</string>
+
 
 </resources>

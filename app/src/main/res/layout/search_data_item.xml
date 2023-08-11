@@ -12,7 +12,8 @@
         android:paddingHorizontal="@dimen/medium_padding"
         android:paddingVertical="@dimen/medium_padding"
         android:text="@string/placeholder"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        />
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"

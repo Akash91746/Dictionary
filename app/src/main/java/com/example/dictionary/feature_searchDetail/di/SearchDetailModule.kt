@@ -2,7 +2,9 @@ package com.example.dictionary.feature_searchDetail.di
 
 import android.content.Context
 import com.example.dictionary.R
-import com.example.dictionary.feature_searchDetail.domain.repository.DictionaryAPI
+import com.example.dictionary.feature_searchDetail.data.data_source.DictionaryAPI
+import com.example.dictionary.feature_searchDetail.data.repository.DictionaryRepositoryImpl
+import com.example.dictionary.feature_searchDetail.domain.repository.DictionaryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +32,13 @@ object SearchDetailModule {
         retrofit: Retrofit
     ): DictionaryAPI {
         return retrofit.create(DictionaryAPI::class.java)
+    }
+
+    @Provides
+    fun providesWordDataRepository(
+        dictionaryAPI: DictionaryAPI
+    ): DictionaryRepository{
+        return DictionaryRepositoryImpl(dictionaryAPI)
     }
 
 }

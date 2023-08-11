@@ -25,4 +25,8 @@ class SearchDataRepositoryImpl(
         return dao.getData()
     }
 
+    override fun getDataList(limit: Int): Flow<List<SearchData>> {
+        return dao.getData(limit)
+    }
+
 }

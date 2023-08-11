@@ -2,7 +2,6 @@ package com.example.dictionary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_search, R.id.nav_recent
+                R.id.nav_search, R.id.nav_recent,R.id.nav_favorites
             ),drawerLayout
         )
 
