@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
     >
 
     <TextView
@@ -12,19 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/medium_padding"
-        android:layout_marginTop="@dimen/small_margin"
+        android:paddingVertical="@dimen/medium_padding"
         android:text="@string/placeholder"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        />
-
-    <TextView
-        android:id="@+id/timeStamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-        android:paddingHorizontal="@dimen/medium_padding"
-        android:layout_marginVertical="@dimen/small_margin"
-        android:text="@string/placeholder"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         />
 
     <com.google.android.material.divider.MaterialDivider

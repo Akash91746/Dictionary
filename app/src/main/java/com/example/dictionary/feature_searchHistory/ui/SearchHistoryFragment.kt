@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dictionary.R
 import com.example.dictionary.databinding.FragmentSearchHistoryBinding
-import com.example.dictionary.feature_searchHistory.adapters.SearchDataAdapter
+import com.example.dictionary.feature_searchHistory.adapters.SearchDataListAdapter
 import com.example.dictionary.common.helpers.SwipeToDeleteTouchHelper
+import com.example.dictionary.feature_searchDetail.ui.SearchDetailFragment
+import com.example.dictionary.feature_searchHistory.domain.models.SearchData
 import com.example.dictionary.feature_searchHistory.utils.SearchHistoryEvents
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +42,19 @@ class SearchHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = SearchDataAdapter()
+
+        val navigator = Navigation.findNavController(requireView())
+
+        val adapter = SearchDataListAdapter(object : SearchDataListAdapter.OnClickItemListener {
+            override fun onClick(item: SearchData) {
+                SearchDetailFragment.navigate(
+                    navigator,
+                    R.id.action_nav_recent_to_searchDetailFragment,
+                    item.search
+                )
+            }
+        })
+
         binding.recyclerView.adapter = adapter
 
         lifecycleScope.launch {
@@ -51,7 +66,7 @@ class SearchHistoryFragment : Fragment() {
         enableSwipeToDeleteAndUndo(adapter)
     }
 
-    private fun enableSwipeToDeleteAndUndo(adapter: SearchDataAdapter) {
+    private fun enableSwipeToDeleteAndUndo(adapter: SearchDataListAdapter) {
 
         val swipeToDeleteTouchHelper = object : SwipeToDeleteTouchHelper(
             requireContext()
@@ -70,11 +85,13 @@ class SearchHistoryFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
-    private fun showUndoSnackBar(){
-        val snackBar = Snackbar.make(binding.root,
-            getString(R.string.undo_delete_text),Snackbar.LENGTH_LONG)
+    private fun showUndoSnackBar() {
+        val snackBar = Snackbar.make(
+            binding.root,
+            getString(R.string.undo_delete_text), Snackbar.LENGTH_LONG
+        )
 
-        snackBar.setAction(getString(R.string.undo_delete_button_text)){
+        snackBar.setAction(getString(R.string.undo_delete_button_text)) {
             viewModel.onEvent(SearchHistoryEvents.OnUndoDelete)
         }
 

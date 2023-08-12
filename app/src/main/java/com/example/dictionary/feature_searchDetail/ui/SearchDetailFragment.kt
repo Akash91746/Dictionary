@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.dictionary.R
 import com.example.dictionary.databinding.FragmentSearchBinding
 import com.example.dictionary.databinding.FragmentSearchDetailBinding
@@ -116,6 +119,19 @@ class SearchDetailFragment : Fragment() {
             arguments = Bundle().apply {
                 putString(ARG_WORD, word)
             }
+        }
+
+
+        fun navigate(
+            navController: NavController,
+            @IdRes resId: Int,
+            word: String
+        ) {
+            val bundle = Bundle().apply {
+                putString(ARG_WORD, word)
+            }
+
+            navController.navigate(resId,bundle)
         }
     }
 }

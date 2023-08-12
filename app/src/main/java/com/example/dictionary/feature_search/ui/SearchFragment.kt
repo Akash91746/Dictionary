@@ -2,20 +2,38 @@ package com.example.dictionary.feature_search.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Adapter
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.dictionary.R
+import com.example.dictionary.databinding.BannerCardBinding
 import com.example.dictionary.databinding.FragmentSearchBinding
+import com.example.dictionary.feature_favorite.adapters.FavoriteListAdapter
+import com.example.dictionary.feature_favorite.domain.models.FavoriteWord
 import com.example.dictionary.feature_searchDetail.ui.SearchDetailFragment
+import com.example.dictionary.feature_searchHistory.adapters.SearchDataListAdapter
+import com.example.dictionary.feature_searchHistory.domain.models.SearchData
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class SearchFragment : Fragment(), View.OnClickListener {
+@AndroidEntryPoint
+class SearchFragment : Fragment(), View.OnClickListener, TextView.OnEditorActionListener {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding: FragmentSearchBinding
@@ -23,41 +41,65 @@ class SearchFragment : Fragment(), View.OnClickListener {
 
     private val viewModel by lazy { ViewModelProvider(this)[SearchViewModel::class.java] }
 
+    private lateinit var navController: NavController
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(requireView())
+
         binding.searchLayout.setOnClickListener(this)
+        binding.searchInputField.setOnEditorActionListener(this)
 
-        binding.searchInputField.setOnEditorActionListener { textView, actionId, _ ->
-
-            if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                removeFocusAndKeyboard()
-
-                val text = textView.text.toString()
-                val navigation = Navigation.findNavController(requireView())
-
-
-                val bundle = Bundle().apply {
-                    putString(SearchDetailFragment.ARG_WORD,text)
-                }
-
-                binding.searchInputField.text?.clear()
-                navigation.navigate(R.id.action_nav_search_to_searchDetailFragment,bundle)
-                return@setOnEditorActionListener true
+        val favoriteAdapter = FavoriteListAdapter(object : FavoriteListAdapter.OnItemClick {
+            override fun onClick(item: FavoriteWord) {
+                SearchDetailFragment.navigate(
+                    navController, R.id.action_nav_search_to_searchDetailFragment,
+                    item.formattedWord()
+                )
             }
+        })
 
-            false
+        val searchAdapter =
+            SearchDataListAdapter(object : SearchDataListAdapter.OnClickItemListener {
+                override fun onClick(item: SearchData) {
+                    SearchDetailFragment.navigate(
+                        navController,
+                        R.id.action_nav_search_to_searchDetailFragment,
+                        item.search
+                    )
+                }
+            })
+
+        setUpAdapter(favoriteAdapter,searchAdapter)
+
+        lifecycleScope.launch {
+            viewModel.state.collectLatest {
+                favoriteAdapter.submitList(it.favoriteWords)
+                searchAdapter.submitList(it.recentSearchList)
+            }
         }
     }
 
-    private fun removeFocusAndKeyboard(){
+    private fun setUpAdapter(favoriteAdapter: FavoriteListAdapter, searchAdapter: SearchDataListAdapter) {
+        binding.favoriteCard.recyclerView.adapter = favoriteAdapter
+        binding.favoriteCard.headerTitle.text = getString(R.string.favorites_header_title)
+        binding.favoriteCard.headerActionButton.setOnClickListener(this)
+
+        binding.searchHistoryCard.recyclerView.adapter = searchAdapter
+        binding.searchHistoryCard.headerTitle.text = getString(R.string.recent_searches_card_header)
+        binding.searchHistoryCard.headerActionButton.setOnClickListener(this)
+    }
+
+    private fun removeFocusAndKeyboard() {
         if (binding.searchInputField.hasFocus()) {
             binding.searchInputField.clearFocus()
         }
@@ -73,8 +115,29 @@ class SearchFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    override fun onEditorAction(view: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
+        if (view?.id == binding.searchInputField.id && actionId == EditorInfo.IME_ACTION_SEARCH) {
+            removeFocusAndKeyboard()
+
+            val text = view.text.toString()
+            val navigation = Navigation.findNavController(requireView())
+
+            binding.searchInputField.text?.clear()
+            SearchDetailFragment.navigate(
+                navigation,
+                R.id.action_nav_search_to_searchDetailFragment,
+                text
+            )
+            return true
+        }
+
+        return false
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

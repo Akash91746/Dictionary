@@ -3,6 +3,7 @@ package com.example.dictionary.feature_favorite.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
 import com.example.dictionary.common.data.data_source.AppDatabase
+import com.example.dictionary.feature_favorite.domain.models.FavoriteWord
 import com.example.dictionary.feature_favorite.domain.repository.FavoriteWordRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -61,6 +62,23 @@ class FavoriteWordRepositoryTest {
         val word = repository.getWord("Test").firstOrNull()
 
         assertThat(word).isNull()
+    }
+
+    @Test
+    fun updateData() = runBlocking {
+        val word = FavoriteWord(id = 1, word = "Test")
+
+        repository.insert(word)
+
+        repository.update(word.copy(word="Test 2"))
+
+        val list = repository.getFavoriteWords().firstOrNull()
+
+        assertThat(list).isNotNull()
+
+        assertThat(list).isNotEmpty()
+
+        assertThat(list!![0].word).isEqualTo("Test 2")
     }
 
 }

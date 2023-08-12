@@ -8,23 +8,13 @@
     >
 
     <TextView
-        android:id="@+id/search_title"
+        android:id="@+id/favorite_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/medium_padding"
-        android:layout_marginTop="@dimen/small_margin"
+        android:paddingVertical="@dimen/medium_padding"
         android:text="@string/placeholder"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        />
-
-    <TextView
-        android:id="@+id/timeStamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-        android:paddingHorizontal="@dimen/medium_padding"
-        android:layout_marginVertical="@dimen/small_margin"
-        android:text="@string/placeholder"
         />
 
     <com.google.android.material.divider.MaterialDivider

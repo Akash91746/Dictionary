@@ -7,14 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dictionary.R
 import com.example.dictionary.common.helpers.SwipeToDeleteTouchHelper
 import com.example.dictionary.databinding.FragmentFavoriteBinding
-import com.example.dictionary.databinding.FragmentSearchBinding
-import com.example.dictionary.feature_favorite.adapters.FavoriteAdapter
+import com.example.dictionary.feature_favorite.adapters.FavoriteListAdapter
+import com.example.dictionary.feature_favorite.domain.models.FavoriteWord
 import com.example.dictionary.feature_favorite.utils.FavoriteScreenEvents
+import com.example.dictionary.feature_searchDetail.ui.SearchDetailFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -39,7 +41,18 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = FavoriteAdapter()
+        val navController = Navigation.findNavController(requireView())
+
+        val adapter = FavoriteListAdapter(object : FavoriteListAdapter.OnItemClick {
+            override fun onClick(item: FavoriteWord) {
+                SearchDetailFragment.navigate(
+                    navController,
+                    R.id.action_nav_favorites_to_searchDetailFragment,
+                    item.word.lowercase()
+                )
+            }
+        })
+
         binding.recyclerView.adapter = adapter
 
         lifecycleScope.launch {
@@ -51,7 +64,7 @@ class FavoriteFragment : Fragment() {
         enableSwipeToDeleteAndUndo(adapter)
     }
 
-    private fun enableSwipeToDeleteAndUndo(adapter: FavoriteAdapter){
+    private fun enableSwipeToDeleteAndUndo(adapter: FavoriteListAdapter) {
 
         val swipeToDeleteTouchHelper = object : SwipeToDeleteTouchHelper(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -67,13 +80,13 @@ class FavoriteFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
-    private fun showUndoSnackBar(){
+    private fun showUndoSnackBar() {
         val snackBar = Snackbar.make(
             binding.root,
             getString(R.string.undo_delete_text),
             Snackbar.LENGTH_LONG
         )
-        snackBar.setAction(getString(R.string.undo_delete_button_text)){
+        snackBar.setAction(getString(R.string.undo_delete_button_text)) {
             viewModel.onEvent(FavoriteScreenEvents.OnUndoDelete)
         }
 

@@ -1,17 +1,14 @@
 package com.example.dictionary.feature_favorite.domain.repository
 
+import com.example.dictionary.common.utils.BaseRepository
 import com.example.dictionary.feature_favorite.domain.models.FavoriteWord
 import kotlinx.coroutines.flow.Flow
 
-interface FavoriteWordRepository {
+interface FavoriteWordRepository : BaseRepository<FavoriteWord> {
 
     suspend fun insert(word: String)
 
-    suspend fun insert(word: FavoriteWord)
-
     suspend fun delete(word: String)
-
-    suspend fun delete(word: FavoriteWord)
 
     fun getWord(word:String): Flow<FavoriteWord?>
 

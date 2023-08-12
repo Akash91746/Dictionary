@@ -4,17 +4,15 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.dictionary.common.utils.BaseDao
 import com.example.dictionary.feature_favorite.domain.models.FavoriteWord
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FavoriteWordDao {
-
-    @Insert
-    suspend fun insert(word: FavoriteWord)
+interface FavoriteWordDao : BaseDao<FavoriteWord> {
 
     @Delete
-    suspend fun delete(word: FavoriteWord)
+    override suspend fun delete(data: FavoriteWord)
 
     @Query("Delete from favoriteword where word = (:word)")
     suspend fun delete(word: String)
