@@ -2,7 +2,9 @@ package com.example.dictionary.feature_favorite.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dictionary.feature_favorite.domain.models.FavoriteWord
 import com.example.dictionary.feature_favorite.domain.repository.FavoriteWordRepository
+import com.example.dictionary.feature_favorite.utils.FavoriteScreenEvents
 import com.example.dictionary.feature_favorite.utils.FavoriteState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
-    private val favoriteWordRepository: FavoriteWordRepository
+    private val repository: FavoriteWordRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(FavoriteState())
@@ -24,18 +26,42 @@ class FavoriteViewModel @Inject constructor(
 
     private var fetchJob: Job? = null
 
+    private var lastDeletedItem: FavoriteWord? = null
+
     init {
         init()
+    }
+
+    fun onEvent(event: FavoriteScreenEvents){
+        when(event) {
+            is FavoriteScreenEvents.OnDelete -> {
+                deleteFavoriteWord(event.item)
+                lastDeletedItem = event.item
+            }
+            is FavoriteScreenEvents.OnUndoDelete -> {
+                lastDeletedItem?.let {
+                    insertFavoriteWord(it)
+                }
+            }
+        }
     }
 
     private fun init(){
         fetchJob?.cancel()
 
         fetchJob = viewModelScope.launch {
-            favoriteWordRepository.getFavoriteWords().collectLatest {
+            repository.getFavoriteWords().collectLatest {
                 _state.value = _state.value.copy(list = it)
             }
         }
+    }
+
+    private fun deleteFavoriteWord(word: FavoriteWord) = viewModelScope.launch {
+        repository.delete(word)
+    }
+
+    private fun insertFavoriteWord(word: FavoriteWord) = viewModelScope.launch {
+        repository.insert(word)
     }
 
 }

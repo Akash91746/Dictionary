@@ -7,6 +7,8 @@ interface FavoriteWordRepository {
 
     suspend fun insert(word: String)
 
+    suspend fun insert(word: FavoriteWord)
+
     suspend fun delete(word: String)
 
     suspend fun delete(word: FavoriteWord)

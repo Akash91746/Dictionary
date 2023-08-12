@@ -30,6 +30,8 @@
     <string name="retry">Retry</string>
     <string name="placeholder">Placeholder</string>
     <string name="view_all">View All</string>
+    <string name="undo_delete_text">Item was removed</string>
+    <string name="undo_delete_button_text">Undo</string>
 
 
 </resources>

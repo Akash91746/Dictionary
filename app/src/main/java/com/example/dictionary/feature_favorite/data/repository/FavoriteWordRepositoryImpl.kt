@@ -15,6 +15,10 @@ class FavoriteWordRepositoryImpl(
         )
     }
 
+    override suspend fun insert(word: FavoriteWord) {
+        return dao.insert(word)
+    }
+
     override suspend fun delete(word: String) {
         return dao.delete(getFormattedWord(word))
     }
