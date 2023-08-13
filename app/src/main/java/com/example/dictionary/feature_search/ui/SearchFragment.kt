@@ -79,17 +79,29 @@ class SearchFragment : Fragment(), View.OnClickListener, TextView.OnEditorAction
                 }
             })
 
-        setUpAdapter(favoriteAdapter,searchAdapter)
+        setUpAdapter(favoriteAdapter, searchAdapter)
 
-        lifecycleScope.launch {
+
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collectLatest {
+                toggleView(binding.favoriteCard,it.favoriteWords.isEmpty())
+                toggleView(binding.searchHistoryCard,it.recentSearchList.isEmpty())
+
                 favoriteAdapter.submitList(it.favoriteWords)
                 searchAdapter.submitList(it.recentSearchList)
             }
         }
     }
 
-    private fun setUpAdapter(favoriteAdapter: FavoriteListAdapter, searchAdapter: SearchDataListAdapter) {
+    private fun toggleView(binding: BannerCardBinding, isEmpty: Boolean) {
+        binding.emptyAnim.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        binding.recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+    }
+
+    private fun setUpAdapter(
+        favoriteAdapter: FavoriteListAdapter,
+        searchAdapter: SearchDataListAdapter,
+    ) {
         binding.favoriteCard.recyclerView.adapter = favoriteAdapter
         binding.favoriteCard.headerTitle.text = getString(R.string.favorites_header_title)
         binding.favoriteCard.headerActionButton.setOnClickListener {
