@@ -16,7 +16,14 @@
         <action
             android:id="@+id/action_nav_search_to_nav_favorites"
             app:destination="@id/nav_favorites"
-            app:restoreState="true"
+            app:popUpTo="@id/nav_search"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_nav_search_to_nav_recent"
+            app:destination="@id/nav_recent"
+            app:popUpTo="@id/nav_search"
+            app:popUpToInclusive="true"
             />
     </fragment>
 

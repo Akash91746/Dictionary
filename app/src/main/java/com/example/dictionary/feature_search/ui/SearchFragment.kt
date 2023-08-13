@@ -92,11 +92,18 @@ class SearchFragment : Fragment(), View.OnClickListener, TextView.OnEditorAction
     private fun setUpAdapter(favoriteAdapter: FavoriteListAdapter, searchAdapter: SearchDataListAdapter) {
         binding.favoriteCard.recyclerView.adapter = favoriteAdapter
         binding.favoriteCard.headerTitle.text = getString(R.string.favorites_header_title)
-        binding.favoriteCard.headerActionButton.setOnClickListener(this)
+        binding.favoriteCard.headerActionButton.setOnClickListener {
+            removeFocusAndKeyboard()
+            navController.navigate(R.id.action_nav_search_to_nav_favorites)
+
+        }
 
         binding.searchHistoryCard.recyclerView.adapter = searchAdapter
         binding.searchHistoryCard.headerTitle.text = getString(R.string.recent_searches_card_header)
-        binding.searchHistoryCard.headerActionButton.setOnClickListener(this)
+        binding.searchHistoryCard.headerActionButton.setOnClickListener {
+            removeFocusAndKeyboard()
+            navController.navigate(R.id.action_nav_search_to_nav_recent)
+        }
     }
 
     private fun removeFocusAndKeyboard() {
