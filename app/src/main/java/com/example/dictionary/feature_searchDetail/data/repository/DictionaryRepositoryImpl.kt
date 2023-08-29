@@ -44,7 +44,7 @@ class DictionaryRepositoryImpl(
         val synonyms = emptyList<String>()
         val antonyms = emptyList<String>()
         var definition = ""
-        var example = ""
+        var example: String? = null
 
         meaningDto.definitions.forEach {dto ->
 
@@ -55,7 +55,7 @@ class DictionaryRepositoryImpl(
             }
 
             if(!dto.example.isNullOrEmpty()) {
-                example += if(example.isNotEmpty()) {
+                example += if(example.isNullOrEmpty()) {
                     "\n${dto.example}"
                 }else {
                     dto.example
