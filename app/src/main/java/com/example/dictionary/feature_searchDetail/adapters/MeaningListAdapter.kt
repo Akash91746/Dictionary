@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dictionary.common.adapters.BaseListAdapter
 import com.example.dictionary.databinding.MeaningListItemBinding
+import com.example.dictionary.feature_searchDetail.data.dto.MeaningDto
 import com.example.dictionary.feature_searchDetail.domain.models.Meaning
 
-class MeaningListAdapter: ListAdapter<Meaning, MeaningListAdapter.ViewHolder>(MeaningDiffCallback) {
+class MeaningListAdapter: BaseListAdapter<Meaning, MeaningListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -26,11 +28,7 @@ class MeaningListAdapter: ListAdapter<Meaning, MeaningListAdapter.ViewHolder>(Me
 
         fun onBind(data: Meaning){
             binding.partOfSpeech.text = data.partOfSpeech
-
-            if(data.definitions.isNotEmpty()){
-                val definition = data.definitions.first()
-                binding.definitionLayout.data = definition
-            }
+            binding.definitionLayout.data = data
         }
 
         companion object {
@@ -41,17 +39,4 @@ class MeaningListAdapter: ListAdapter<Meaning, MeaningListAdapter.ViewHolder>(Me
             }
         }
     }
-
-    object MeaningDiffCallback : DiffUtil.ItemCallback<Meaning> (){
-        override fun areItemsTheSame(oldItem: Meaning, newItem: Meaning): Boolean {
-            return oldItem.partOfSpeech == newItem.partOfSpeech
-        }
-
-        override fun areContentsTheSame(oldItem: Meaning, newItem: Meaning): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
-
-    }
-
-
 }

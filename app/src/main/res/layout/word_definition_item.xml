@@ -5,7 +5,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.dictionary.feature_searchDetail.domain.models.Definition" />
+            type="com.example.dictionary.feature_searchDetail.domain.models.Meaning" />
 
         <import type="android.view.View" />
     </data>
@@ -37,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
-            android:text="@{@string/word_antonyms(data.antonyms)}"
+            prefix="@{@string/word_antonyms}"
+            array="@{data.antonyms}"
             android:visibility="@{data.antonyms.size() > 0 ? View.VISIBLE : View.GONE}" />
 
         <TextView
@@ -45,7 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
-            android:text="@{@string/word_synonyms(data.synonyms)}"
+            prefix="@{@string/word_synonyms}"
+            array="@{data.synonyms}"
             android:visibility="@{data.synonyms.size() > 0 ? View.VISIBLE : View.GONE}" />
 
     </LinearLayout>

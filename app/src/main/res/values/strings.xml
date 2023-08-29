@@ -34,6 +34,7 @@
     <string name="undo_delete_button_text">Undo</string>
     <string name="favorites_header_title">Favorites</string>
     <string name="recent_searches_card_header">Recent Searches</string>
+    <string name="play_phonetics_button_desc">Play Phonetics</string>
 
 
 </resources>

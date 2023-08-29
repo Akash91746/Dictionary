@@ -1,6 +1,6 @@
-package com.example.dictionary.feature_searchDetail.domain.models
+package com.example.dictionary.feature_searchDetail.data.dto
 
-data class Definition(
+data class DefinitionDto(
     val antonyms: List<String>,
     val definition: String,
     val example: String?,

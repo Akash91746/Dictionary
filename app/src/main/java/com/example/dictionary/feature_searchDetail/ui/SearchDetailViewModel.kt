@@ -56,19 +56,18 @@ class SearchDetailViewModel @Inject constructor(
             val result = dictionaryRepository.getWordDetail(word)
             val resultData = result.getOrNull()
 
-            val wordData = if (!resultData.isNullOrEmpty()) resultData[0] else null
             val error =
                 if (result.exceptionOrNull() != null) result.exceptionOrNull()!!.message else null
 
             initFavoriteFetch(word)
 
             _state.value = _state.value.copy(
-                data = wordData,
+                data = resultData,
                 error = error,
                 loading = false
             )
 
-            if (wordData != null) {
+            if (resultData != null) {
                 insertSearchData(word)
             }
         }
