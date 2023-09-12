@@ -2,10 +2,16 @@ package com.example.dictionary.feature_searchDetail.adapters
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dictionary.R
 import com.example.dictionary.common.adapters.BaseListAdapter
 import com.example.dictionary.databinding.MeaningListItemBinding
 import com.example.dictionary.feature_searchDetail.data.dto.MeaningDto
@@ -28,7 +34,34 @@ class MeaningListAdapter: BaseListAdapter<Meaning, MeaningListAdapter.ViewHolder
 
         fun onBind(data: Meaning){
             binding.partOfSpeech.text = data.partOfSpeech
-            binding.definitionLayout.data = data
+            val dataLayout = binding.definitionLayout
+
+            setTextAndVisibility(dataLayout.definition,data.definition, R.string.word_definition)
+            setTextAndVisibility(dataLayout.example,data.example,R.string.word_example)
+
+            setTextAndVisibility(dataLayout.antonyms,convertListToString(data.antonyms),R.string.word_antonyms)
+            setTextAndVisibility(dataLayout.synonyms,convertListToString(data.synonyms),R.string.word_synonyms)
+        }
+
+        private fun convertListToString(list: List<String>): String? {
+            if (list.isEmpty()) return null
+
+            return list.joinToString(separator = ", ")
+        }
+
+        private fun setTextAndVisibility(view: TextView,value: String?,@StringRes resId: Int? = null) {
+            if(value != null) {
+                if(resId != null) {
+                    view.text = binding.root.context.getString(resId,value)
+                }else {
+                    view.text = value
+                }
+            }
+
+            setVisibility(view,value != null)
+        }
+        private fun setVisibility(view: View,visible: Boolean) {
+            view.visibility = if (visible) View.VISIBLE else View.GONE
         }
 
         companion object {

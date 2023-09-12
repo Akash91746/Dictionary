@@ -58,7 +58,7 @@ class DictionaryRepositoryImpl(
                 if(example == null){
                     example = ""
                 }
-                example += if(example.isNullOrEmpty()) {
+                example += if(!example.isNullOrEmpty()) {
                     "\n${dto.example}"
                 }else {
                     dto.example

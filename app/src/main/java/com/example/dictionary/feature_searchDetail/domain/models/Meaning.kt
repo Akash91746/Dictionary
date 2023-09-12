@@ -4,7 +4,7 @@ import com.example.dictionary.common.models.BaseModel
 
 data class Meaning(
     val partOfSpeech: String,
-    val definition: String,
+    val definition: String?,
     val example: String?,
     val synonyms: List<String>,
     val antonyms: List<String>

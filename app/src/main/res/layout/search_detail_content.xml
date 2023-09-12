@@ -50,7 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
             android:text="@{@string/word_phonetic(data.phonetic.value)}"
-            android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
+            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+            android:visibility="@{data.phonetic.value == null ? View.GONE : View.VISIBLE}"
+            />
 
         <ImageButton
             android:id="@+id/media_play_button"
